@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card search-hero">
+    <div class="hero-content">
+        <h1 class="hero-title"><i class="fas fa-search"></i> Найдите идеальный полет</h1>
+        <p class="hero-subtitle">Откройте для себя лучшие направления по самым выгодным ценам</p>
+    </div>
+    
+    <form action="{{ url_for('search') }}" method="POST" class="search-form" id="flightSearchForm">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="origin"><i class="fas fa-plane-departure"></i> Откуда</label>
+                <div class="input-with-icon">
+                    <input type="text" id="origin" name="origin" placeholder="Город или аэропорт" required>
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="destination"><i class="fas fa-plane-arrival"></i> Куда</label>
+                <div class="input-with-icon">
+                    <input type="text" id="destination" name="destination" placeholder="Город или аэропорт" required>
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="depart_date"><i class="fas fa-calendar-alt"></i> Туда</label>
+                <div class="input-with-icon">
+                    <input type="date" id="depart_date" name="depart_date" required>
+                    <i class="fas fa-calendar"></i>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="return_date"><i class="fas fa-calendar-alt"></i> Обратно</label>
+                <div class="input-with-icon">
+                    <input type="date" id="return_date" name="return_date">
+                    <i class="fas fa-calendar"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="passengers"><i class="fas fa-users"></i> Пассажиры</label>
+                <div class="passenger-select">
+                    <select id="passengers" name="passengers">
+                        <option value="1">1 пассажир</option>
+                        <option value="2">2 пассажира</option>
+                        <option value="3">3 пассажира</option>
+                        <option value="4">4 пассажира</option>
+                        <option value="5">5 пассажиров</option>
+                        <option value="6">6 пассажиров</option>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="class"><i class="fas fa-crown"></i> Класс</label>
+                <div class="class-select">
+                    <select id="class" name="class">
+                        <option value="economy">Эконом класс</option>
+                        <option value="comfort">Комфорт класс</option>
+                        <option value="business">Бизнес класс</option>
+                        <option value="first">Первый класс</option>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary search-btn">
+            <i class="fas fa-search"></i>
+            <span class="btn-text">НАЙТИ БИЛЕТЫ</span>
+        </button>
+    </form>
+</div>
+
+<div class="glass-card price-alert-card" id="price-alert">
+    <div class="price-alert-header">
+        <i class="fas fa-bell"></i>
+        <h3>Следите за ценами</h3>
+    </div>
+    <p class="price-alert-desc">Получайте уведомления, когда цены на выбранный маршрут снизятся</p>
+    
+    <form id="price-alert-form" class="price-alert-form">
+        <div class="form-group">
+            <div class="input-with-icon">
+                <input type="email" id="email" placeholder="Ваш email" required>
+                <i class="fas fa-envelope"></i>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="input-with-icon">
+                <input type="text" id="alert-route" placeholder="Маршрут (например: Москва-Стамбул)" required>
+                <i class="fas fa-route"></i>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn-secondary">
+            <i class="fas fa-bell"></i>
+            Подписаться на уведомления
+        </button>
+    </form>
+</div>
+
+<div class="glass-card popular-destinations">
+    <h3 class="section-title"><i class="fas fa-fire"></i> Популярные направления</h3>
+    <div class="destinations-grid">
+        <div class="destination-card" data-destination="Москва-Стамбул">
+            <div class="destination-image" data-src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=300&h=200&fit=crop"></div>
+            <div class="destination-info">
+                <h4>Москва → Стамбул</h4>
+                <p class="destination-price">от 8 500 ₽</p>
+            </div>
+        </div>
+        
+        <div class="destination-card" data-destination="Санкт-Петербург-Дубай">
+            <div class="destination-image" data-src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=300&h=200&fit=crop"></div>
+            <div class="destination-info">
+                <h4>СПБ → Дубай</h4>
+                <p class="destination-price">от 25 000 ₽</p>
+            </div>
+        </div>
+        
+        <div class="destination-card" data-destination="Москва-Бангкок">
+            <div class="destination-image" data-src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=300&h=200&fit=crop"></div>
+            <div class="destination-info">
+                <h4>Москва → Бангкок</h4>
+                <p class="destination-price">от 32 000 ₽</p>
+            </div>
+        </div>
+        
+    <div class="destination-card" data-destination="Екатеринбург-Сочи">
+    <div class="destination-image">            
+    <div class="destination-image"img src="/static/images/sochi.jpg" alt="Сочи"></div>
+    </div>
+    <div class="destination-info">
+        <h4>Екатеринбург → Сочи</h4>
+        <p class="destination-price">от 5 200 ₽</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="glass-card features-section">
+    <h3 class="section-title"><i class="fas fa-star"></i> Почему выбирают нас</h3>
+    <div class="features-grid">
+        <div class="feature-item">
+            <div class="feature-icon">
+                <i class="fas fa-percentage"></i>
+            </div>
+            <h4>Лучшие цены</h4>
+            <p>Гарантия лучшей цены или возврат разницы</p>
+        </div>
+        
+        <div class="feature-item">
+            <div class="feature-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h4>Безопасность</h4>
+            <p>Защищенные платежи и конфиденциальность данных</p>
+        </div>
+        
+        <div class="feature-item">
+            <div class="feature-icon">
+                <i class="fas fa-headset"></i>
+            </div>
+            <h4>Поддержка 24/7</h4>
+            <p>Круглосуточная поддержка клиентов</p>
+        </div>
+        
+        <div class="feature-item">
+            <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <h4>Мгновенное бронирование</h4>
+            <p>Быстрое подтверждение бронирования</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>goneTfly - купить авиабилеты</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="airplane">✈</div>
+    <div class="airplane">✈</div>
+    
+    <div class="container">
+        <header class="header">
+        <a href="{{ url_for('index') }}" class="logo">
+            <i class="fas fa-plane-departure"></i>goneTfly
+        </a>
+        <nav class="nav">
+            <a href="{{ url_for('index') }}">Поиск</a>
+            {% if session.user_id %}
+                <a href="{{ url_for('my_bookings') }}">Мои бронирования</a>
+                <div class="user-menu">
+                    <span class="user-name">Привет, {{ session.user_name.split()[0] }}</span>
+                    <a href="{{ url_for('logout') }}" class="btn-login">Выйти</a>
+                </div>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn-login">Войти</a>
+            {% endif %}
+        </nav>
+    </header>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>О компании</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-info-circle"></i> О нас</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> Контакты</a></li>
+                        <li><a href="#"><i class="fas fa-briefcase"></i> Вакансии</a></li>
+                        <li><a href="#"><i class="fas fa-handshake"></i> Партнеры</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Помощь</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-file-alt"></i> Правила бронирования</a></li>
+                        <li><a href="#"><i class="fas fa-undo-alt"></i> Возврат билетов</a></li>
+                        <li><a href="#"><i class="fas fa-headset"></i> Служба поддержки</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 8-800-555-35-35</li>
+                        <li><i class="fas fa-envelope"></i> info@gonetfly.ru</li>
+                        <li><i class="fas fa-map-marker-alt"></i> г. Нефтеюганск, ул. Мамонтовская, строение 1</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Мы в соцсетях</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-vk"></i> VK</a>
+                        <a href="#"><i class="fab fa-telegram"></i> Telegram</a>
+                        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 goneTfly. Все права защищены.</p>
+            </div>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

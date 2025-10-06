@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card">
+    <h2><i class="fas fa-search"></i> Результаты поиска: {{ origin }} → {{ destination }}</h2>
+    <p>Даты: {{ depart_date }} {% if return_date %}- {{ return_date }}{% endif %}</p>
+    <p>Пассажиры: {{ passengers }}</p>
+</div>
+
+{% for flight in flights %}
+<div class="glass-card flight-card">
+    <div class="flight-info">
+        <div class="flight-header">
+            <h3>{{ flight.airline }}</h3>
+            <span class="flight-duration">{{ flight.duration }}</span>
+        </div>
+        
+        <div class="flight-times">
+            <div class="time-block">
+                <span class="time">{{ flight.depart_time }}</span>
+                <span class="city">{{ origin }}</span>
+            </div>
+            
+            <div class="flight-route">
+                <div class="route-line"></div>
+                <div class="flight-stops">{{ flight.stops }}</div>
+            </div>
+            
+            <div class="time-block">
+                <span class="time">{{ flight.arrival_time }}</span>
+                <span class="city">{{ destination }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="flight-price">
+        <div class="price">{{ flight.price|format_price }} ₽</div>
+        <p>за {{ passengers }} пассажир(ов)</p>
+        
+        {% if session.user_id %}
+            <button class="btn-primary book-btn" 
+                    onclick="bookFlight({{ flight|tojson }}, '{{ origin }}', '{{ destination }}', '{{ depart_date }}', '{{ return_date }}', {{ passengers }})">
+                <i class="fas fa-shopping-cart"></i>
+                ЗАБРОНИРОВАТЬ
+            </button>
+        {% else %}
+            <button class="btn-primary" onclick="location.href='{{ url_for('login') }}'">
+                <i class="fas fa-sign-in-alt"></i>
+                ВОЙТИ ДЛЯ БРОНИРОВАНИЯ
+            </button>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+<script>
+// Функция для форматирования цены
+function formatPrice(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+// Функция бронирования рейса
+function bookFlight(flight, origin, destination, depart_date, return_date, passengers) {
+    const flightData = {
+        airline: flight.airline,
+        origin: origin,
+        destination: destination,
+        depart_date: depart_date,
+        return_date: return_date,
+        depart_time: flight.depart_time,
+        arrival_time: flight.arrival_time,
+        price: flight.price,
+        passengers: parseInt(passengers)
+    };
+    
+    fetch('/api/book', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(flightData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            window.location.href = `/confirmation?ref=${data.booking_reference}`;
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Произошла ошибка при бронировании');
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card auth-card">
+    <div class="auth-header">
+        <h1><i class="fas fa-user-plus"></i> Регистрация</h1>
+        <p>Создайте аккаунт для бронирования билетов</p>
+    </div>
+    
+    <form id="registerForm" class="auth-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="first_name"><i class="fas fa-user"></i> Имя</label>
+                <input type="text" id="first_name" name="first_name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="last_name"><i class="fas fa-user"></i> Фамилия</label>
+                <input type="text" id="last_name" name="last_name" required>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="email"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone"><i class="fas fa-phone"></i> Телефон</label>
+            <input type="tel" id="phone" name="phone">
+        </div>
+        
+        <div class="form-group">
+            <label for="password"><i class="fas fa-lock"></i> Пароль</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <button type="submit" class="btn-primary">
+            <i class="fas fa-user-plus"></i>
+            Зарегистрироваться
+        </button>
+    </form>
+    
+    <div class="auth-footer">
+        <p>Уже есть аккаунт? <a href="{{ url_for('login') }}">Войдите</a></p>
+    </div>
+</div>
+{% endblock %}
